@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Demo03Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblCalificacion">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="70" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblPago">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FechaRegistro" Type="date" Nullable="false" />
+          <Property Name="Monto" Type="smallmoney" Nullable="false" />
+          <Property Name="DNIParticipante" Type="char" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblParticipante">
+          <Key>
+            <PropertyRef Name="DNI" />
+          </Key>
+          <Property Name="DNI" Type="char" MaxLength="8" Nullable="false" />
+          <Property Name="Nombres" Type="varchar" MaxLength="70" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sexo" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="FechaNacimiento" Type="date" Nullable="false" />
+          <Property Name="Correo" Type="varchar" MaxLength="100" />
+          <Property Name="CodigoProfesion" Type="tinyint" Nullable="false" />
+          <Property Name="CodigoCalificacion" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__tblPago__DNIPart__182C9B23">
+          <End Role="tblParticipante" Type="Self.tblParticipante" Multiplicity="1" />
+          <End Role="tblPago" Type="Self.tblPago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblParticipante">
+              <PropertyRef Name="DNI" />
+            </Principal>
+            <Dependent Role="tblPago">
+              <PropertyRef Name="DNIParticipante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblPartic__Codig__15502E78">
+          <End Role="tblCalificacion" Type="Self.tblCalificacion" Multiplicity="1" />
+          <End Role="tblParticipante" Type="Self.tblParticipante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCalificacion">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="tblParticipante">
+              <PropertyRef Name="CodigoCalificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Demo03ModelStoreContainer">
+          <EntitySet Name="tblCalificacion" EntityType="Self.tblCalificacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPago" EntityType="Self.tblPago" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblParticipante" EntityType="Self.tblParticipante" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tblPago__DNIPart__182C9B23" Association="Self.FK__tblPago__DNIPart__182C9B23">
+            <End Role="tblParticipante" EntitySet="tblParticipante" />
+            <End Role="tblPago" EntitySet="tblPago" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblPartic__Codig__15502E78" Association="Self.FK__tblPartic__Codig__15502E78">
+            <End Role="tblCalificacion" EntitySet="tblCalificacion" />
+            <End Role="tblParticipante" EntitySet="tblParticipante" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Demo03Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblCalificacion">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblParticipante" Relationship="Self.FK__tblPartic__Codig__15502E78" FromRole="tblCalificacion" ToRole="tblParticipante" />
+        </EntityType>
+        <EntityType Name="tblPago">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Monto" Type="Decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="DNIParticipante" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tblParticipante" Relationship="Self.FK__tblPago__DNIPart__182C9B23" FromRole="tblPago" ToRole="tblParticipante" />
+        </EntityType>
+        <EntityType Name="tblParticipante">
+          <Key>
+            <PropertyRef Name="DNI" />
+          </Key>
+          <Property Name="DNI" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Nombres" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoProfesion" Type="Byte" Nullable="false" />
+          <Property Name="CodigoCalificacion" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="tblCalificacion" Relationship="Self.FK__tblPartic__Codig__15502E78" FromRole="tblParticipante" ToRole="tblCalificacion" />
+          <NavigationProperty Name="tblPago" Relationship="Self.FK__tblPago__DNIPart__182C9B23" FromRole="tblParticipante" ToRole="tblPago" />
+        </EntityType>
+        <Association Name="FK__tblPartic__Codig__15502E78">
+          <End Role="tblCalificacion" Type="Self.tblCalificacion" Multiplicity="1" />
+          <End Role="tblParticipante" Type="Self.tblParticipante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCalificacion">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="tblParticipante">
+              <PropertyRef Name="CodigoCalificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblPago__DNIPart__182C9B23">
+          <End Role="tblParticipante" Type="Self.tblParticipante" Multiplicity="1" />
+          <End Role="tblPago" Type="Self.tblPago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblParticipante">
+              <PropertyRef Name="DNI" />
+            </Principal>
+            <Dependent Role="tblPago">
+              <PropertyRef Name="DNIParticipante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Demo03Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblCalificacion" EntityType="Self.tblCalificacion" />
+          <EntitySet Name="tblPago" EntityType="Self.tblPago" />
+          <EntitySet Name="tblParticipante" EntityType="Self.tblParticipante" />
+          <AssociationSet Name="FK__tblPartic__Codig__15502E78" Association="Self.FK__tblPartic__Codig__15502E78">
+            <End Role="tblCalificacion" EntitySet="tblCalificacion" />
+            <End Role="tblParticipante" EntitySet="tblParticipante" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblPago__DNIPart__182C9B23" Association="Self.FK__tblPago__DNIPart__182C9B23">
+            <End Role="tblParticipante" EntitySet="tblParticipante" />
+            <End Role="tblPago" EntitySet="tblPago" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Demo03ModelStoreContainer" CdmEntityContainer="Demo03Entities">
+          <EntitySetMapping Name="tblCalificacion">
+            <EntityTypeMapping TypeName="Demo03Model.tblCalificacion">
+              <MappingFragment StoreEntitySet="tblCalificacion">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPago">
+            <EntityTypeMapping TypeName="Demo03Model.tblPago">
+              <MappingFragment StoreEntitySet="tblPago">
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="DNIParticipante" ColumnName="DNIParticipante" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblParticipante">
+            <EntityTypeMapping TypeName="Demo03Model.tblParticipante">
+              <MappingFragment StoreEntitySet="tblParticipante">
+                <ScalarProperty Name="DNI" ColumnName="DNI" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="CodigoProfesion" ColumnName="CodigoProfesion" />
+                <ScalarProperty Name="CodigoCalificacion" ColumnName="CodigoCalificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
